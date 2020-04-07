@@ -31,20 +31,36 @@ def path_to_data(year, month):
     """Checks if data file exists for given year and month.
     """
     path = normalize_path(year, month)
-    if not os.path.exists(path): raise FileNotFoundError(f"No file found here: {path}")
+    if not os.path.exists(path): raise FileNotFoundError(f"File {path} doesn't exist")
     return path
 
 
-def by_month(year, month):
+def aggregate_by_month(year, month):
     """Aggregates data for given year and month.
     Reads a relevant csv file with data (if exists).
-    Returns a dictionary {"expense_type": monthly_expenses}.
+    Returns a dictionary {"expense_type": sum_for_month}.
     """
-    path = path_to_data(year, month)
     monthly_expenses = defaultdict(float)
-    with open(path) as file:
-        data = csv.DictReader(file)
-        for row in data:
-            exp_type, exp_value = row["type"], float(row["euro"])
-            monthly_expenses[exp_type] += round(exp_value, 1)
+    try:
+        path = path_to_data(year, month)
+        with open(path) as file:
+            data = csv.DictReader(file)
+            for row in data:
+                exp_type, exp_value = row["type"], float(row["euro"])
+                monthly_expenses[exp_type] += exp_value
+    except FileNotFoundError:
+        pass
     return monthly_expenses
+
+
+def aggregate_by_year(year):
+    """Aggregates data for a given year.
+    Run through all csv files for the year (if exists).
+    Returns a dictionary {"month": monthly_expenses}
+    """
+    months = range(1, 13)
+    yearly_expenses = {}
+    for m in months:
+        data = aggregate_by_month(year=year, month=m)
+        if data: yearly_expenses[m] = dict(data)
+    return yearly_expenses
