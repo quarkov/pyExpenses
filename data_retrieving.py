@@ -55,8 +55,8 @@ def aggregate_by_month(year, month):
 
 def aggregate_by_year(year):
     """Aggregates data for a given year.
-    Run through all csv files for the year (if exists).
-    Returns a dictionary {"month": monthly_expenses}
+    Runs through all csv files for the year (if exists).
+    Returns a dictionary {"month": monthly_expenses}.
     """
     months = range(1, 13)
     yearly_expenses = {}
