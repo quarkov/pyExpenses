@@ -3,6 +3,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
+months = {1: "January", 2: "February", 3: "March",
+          4: "April", 5: "May", 6: "June", 7: "July",
+          8: "August", 9: "September", 10: "October",
+          11: "November", 12: "December"}
+
+
 def prep_monthly_data(year, month):
     """Converts monthly data dictionary retrieved with aggregate_by_month(year, month) function into
     a list [(expense_type, value_for_month)] which is then being sorted by value_for_month
@@ -19,14 +25,29 @@ def prep_monthly_data(year, month):
 
 def monthly_chart(year, month):
     expense_types, expense_values = prep_monthly_data(year=year, month=month)
+    month_total = sum(expense_values)
+    percents = [round(e_val*100/month_total, 1) for e_val in expense_values]
 
-    fig, ax = plt.subplots()
-    size = 0.25
-    cmap = plt.get_cmap("tab20c")
-    colors = cmap(np.arange(len(expense_types)))
-    ax.pie(expense_values, radius=1, colors=colors, wedgeprops=dict(width=size, edgecolor='w'))
-    ax.set(aspect="equal", title=f"Monthly expenses for {month} {year}")
+    fig, ax = plt.subplots(figsize=(8, 4))
+
+    ax.set(aspect="equal")
+    ax.pie(x=expense_values,
+           radius=1.,
+           colors=plt.get_cmap("plasma")(np.arange(255, 1, -255//len(expense_types))),
+           wedgeprops=dict(width=0.25, edgecolor='w'),
+           startangle=-60,
+           center=(-2, 0))
+
+    labels = [f"{percents[i]}% ".rjust(6, " ") +
+              f"({expense_values[i]} PLN)".rjust(11, " ") +
+              f" - {e_type}"
+              for i, e_type in enumerate(expense_types)]
+
+    ax.legend(labels, bbox_to_anchor=(1, 0.1, 0.5, 1), loc="right")
+    ax.pie([0, 0])
+    ax.text(1.1, -1, f"Total spent: {month_total} PLN", style='oblique',
+            bbox={'facecolor': 'blue', 'alpha': 0.1, 'pad': 8})
+
+    plt.title(s=f"Expenses {year}, {months[month]}",
+              fontsize=14)
     plt.show()
-
-
-monthly_chart(2018, 8)
