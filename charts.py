@@ -51,3 +51,19 @@ def monthly_chart(year, month):
     plt.title(s=f"Expenses {year}, {months[month]}",
               fontsize=14)
     plt.show()
+
+
+def yearly_chart(year):
+    seq = np.arange(1, 13)
+    exp_by_month = [sum(prep_monthly_data(year, i)[1]) for i in range(1, 13)]
+
+    plt.grid(False, 'major', 'y', ls='--', lw=.5, c='k', alpha=0.3)
+    plt.bar(seq, exp_by_month, 0.2, color='#4b57db')
+
+    plt.xticks(seq, months.values(), rotation=60, fontsize=8)
+    for spine in plt.gca().spines.values():
+        spine.set_visible(False)
+    plt.title(s=f"Yearly expenses, {year}. Total - {sum(exp_by_month)} PLN",
+              bbox={'facecolor': 'blue', 'alpha': 0.1, 'pad': 4},
+              fontsize=10)
+    plt.show()
