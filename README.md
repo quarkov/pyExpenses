@@ -21,7 +21,7 @@ Long story short,
 `python3 run.py 2020 3` will result in:  
 ![2020, March Expenses](/demos/2020_3.png)  
   
-`python3 run.py 2020` will result in:
+`python3 run.py 2020` will result in:  
 ![2020 Expenses](/demos/2020.png)  
   
 Use your own data (following naming conventions demonstrated in the provided csv) and try for yourself.
