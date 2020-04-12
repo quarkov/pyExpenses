@@ -67,6 +67,3 @@ def yearly_chart(year):
               bbox={'facecolor': 'blue', 'alpha': 0.1, 'pad': 4},
               fontsize=10)
     plt.show()
-
-
-monthly_chart(2020, 3)
