@@ -2,7 +2,7 @@ import data_retrieving as dr
 import matplotlib.pyplot as plt
 import numpy as np
 
-
+currency = "EUR"
 months = {1: "January", 2: "February", 3: "March",
           4: "April", 5: "May", 6: "June", 7: "July",
           8: "August", 9: "September", 10: "October",
@@ -39,13 +39,13 @@ def monthly_chart(year, month):
            center=(-2, 0))
 
     labels = [f"{percents[i]}% ".rjust(6, " ") +
-              f"({expense_values[i]} PLN)".rjust(11, " ") +
+              f"({expense_values[i]} {currency})".rjust(11, " ") +
               f" - {e_type}"
               for i, e_type in enumerate(expense_types)]
 
     ax.legend(labels, bbox_to_anchor=(1, 0.1, 0.5, 1), loc="right")
     ax.pie([0, 0])
-    ax.text(1.1, -1, f"Total spent: {month_total} PLN", style='oblique',
+    ax.text(1.1, -1, f"Total spent: {month_total} {currency}", style='oblique',
             bbox={'facecolor': 'blue', 'alpha': 0.1, 'pad': 8})
 
     plt.title(s=f"Expenses {year}, {months[month]}",
@@ -63,7 +63,10 @@ def yearly_chart(year):
     plt.xticks(seq, months.values(), rotation=60, fontsize=8)
     for spine in plt.gca().spines.values():
         spine.set_visible(False)
-    plt.title(s=f"Yearly expenses, {year}. Total - {sum(exp_by_month)} PLN",
+    plt.title(s=f"Yearly expenses, {year}. Total - {sum(exp_by_month)} {currency}",
               bbox={'facecolor': 'blue', 'alpha': 0.1, 'pad': 4},
               fontsize=10)
     plt.show()
+
+
+monthly_chart(2020, 3)
