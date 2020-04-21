@@ -11,7 +11,7 @@ Python3, matplotlib, numpy
 
 
 # Howto:
-Clone the project project and launch _run.py_ 
+Clone the project and launch _run.py_ 
 Passing two arguments: the first one is a year, the second one is a month   
 (its number) will result in a pie chart with monthly expenses.  
 If skip passing a month number, result will be a yearly report.
