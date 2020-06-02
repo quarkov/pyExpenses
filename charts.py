@@ -1,12 +1,19 @@
 import data_retrieving as dr
 import matplotlib.pyplot as plt
 import numpy as np
+import os
+
 
 currency = "EUR"
 months = {1: "January", 2: "February", 3: "March",
           4: "April", 5: "May", 6: "June", 7: "July",
           8: "August", 9: "September", 10: "October",
           11: "November", 12: "December"}
+
+
+def check_dir(year):
+    if not os.path.exists("pics"): os.mkdir("pics")
+    if not os.path.exists(f"pics/{year}"): os.mkdir(f"pics/{year}")
 
 
 def prep_monthly_data(year, month):
@@ -24,6 +31,7 @@ def prep_monthly_data(year, month):
 
 
 def monthly_chart(year, month):
+
     expense_types, expense_values = prep_monthly_data(year=year, month=month)
     month_total = sum(expense_values)
     percents = [round(e_val*100/month_total, 1) for e_val in expense_values]
@@ -50,7 +58,9 @@ def monthly_chart(year, month):
 
     plt.title(s=f"Expenses {year}, {months[month]}",
               fontsize=14)
-    plt.show()
+
+    check_dir(year)
+    plt.savefig(f'pics/{year}/{year}_{month}.jpg')
 
 
 def yearly_chart(year):
@@ -66,4 +76,13 @@ def yearly_chart(year):
     plt.title(s=f"Yearly expenses, {year}. Total - {sum(exp_by_month)} {currency}",
               bbox={'facecolor': 'blue', 'alpha': 0.1, 'pad': 4},
               fontsize=10)
-    plt.show()
+
+    check_dir(year)
+    plt.savefig(f'pics/{year}/{year}_0.jpg')
+
+
+def draw_chart(year, month=None):
+    if month:
+        monthly_chart(year, month)
+    else:
+        yearly_chart(year)

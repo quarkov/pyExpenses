@@ -64,5 +64,3 @@ def aggregate_by_year(year):
         data = aggregate_by_month(year=year, month=m)
         if data: yearly_expenses[m] = dict(data)
     return yearly_expenses
-
-
