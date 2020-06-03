@@ -60,7 +60,8 @@ def monthly_chart(year, month):
               fontsize=14)
 
     check_dir(year)
-    plt.savefig(f'pics/{year}/{year}_{month}.jpg')
+    plt.savefig(f'pics/{year}/{year}_{month}.jpg', dpi=400)
+    plt.close()
 
 
 def yearly_chart(year):
@@ -78,10 +79,11 @@ def yearly_chart(year):
               fontsize=10)
 
     check_dir(year)
-    plt.savefig(f'pics/{year}/{year}_0.jpg')
+    plt.savefig(f'pics/{year}/{year}_0.jpg', dpi=400)
+    plt.close()
 
 
-def draw_chart(year, month=None):
+def draw_chart(year, month):
     if month:
         monthly_chart(year, month)
     else:

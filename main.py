@@ -17,7 +17,7 @@ def load_ui():
 
 
 def populate_tree_widget(ui):
-    years = sorted(os.listdir('data'), reverse=True)
+    years = sorted(os.listdir('test data'), reverse=True)
     for y in years:
         year = QTreeWidgetItem(ui.treeWidget, [y])
         months = sorted(f_name.split('.')[0] for f_name in os.listdir(f'test data/{y}') if f_name.endswith('.csv'))
@@ -31,14 +31,15 @@ def render_report():
     except ValueError:
         year, month = int(query), 0
 
-    path = f"pics/{year}/{year}_{month}.jpg"
+    f_name = f"{year}_{month}.jpg"
+    path = f"pics/{year}/{f_name}"
     if not os.path.exists(path):
         draw_chart(year, month)
 
     os.chdir(f"pics/{year}")
-    f_name = str(year) + "_" + str(month) + '.jpg'
     pixmap = QPixmap(f_name)
     ui.picLabel.setPixmap(pixmap)
+    ui.picLabel.show()
     os.chdir('../..')
 
 
